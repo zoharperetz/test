@@ -11,18 +11,24 @@ pipeline {
       disableResume()
    }
    stages{
-   
-     stage('update version') {
+     
+     stage('Disable pipeline from Jenkins trigger') {
+        steps{
+          script{
+             if (currentBuild.rawBuild.getCause(hudson.model.Cause.UserIdCause)) {
+                        echo 'Changes detected from Jenkins. Aborting pipeline run.'
+                        error 'Pipeline run aborted due to changes from Jenkins.'
+           }
+         }
+     }
+     }
+     stage('Update version') {
         steps {
           script{
            dir('eks') {
              def buildNumber = currentBuild.number
              echo "Build Number: ${buildNumber}"
-             //sh(script: "sed -i 's/VERSION_TAG/\${buildNumber}/g' weatherapp.yaml")
              sh "sed -i 's/VERSION_TAG/${buildNumber}/g' weatherapp.yaml"
-             //configFile = readFile('weatherapp.yaml')
-             //updatedAppFile = configFile.replaceAll('VERSION_TAG', "${VERSION_TAG}")
-             //writeFile(file: 'weatherapp.yaml', text: updatedAppFile)
              sh "cat weatherapp.yaml"
              
              
@@ -30,7 +36,7 @@ pipeline {
          }
         }
      }
-      stage('push changes') {
+      stage('Push changes') {
         steps {
           script{
              withCredentials([gitUsernamePassword(credentialsId: 'github-token', gitToolName: 'Default')]) {
@@ -53,17 +59,7 @@ pipeline {
            }
         }
       }
-      stage('Disable Jenkins pipeline') {
-        when {
-            branch "pre-prod"
-        }
-        steps{
-          script{
-             def parentBuild = getParentBuild()
-             parentBuild.pipeline.disableResume()
-           }
-         }
-     }
+      
        
    }
    post {        
