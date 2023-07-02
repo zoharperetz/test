@@ -55,7 +55,7 @@ pipeline {
                    //sh 'git stash pop'
                    sh 'git add .'
                    sh 'git commit -m "Commit message from jenkins"'
-                   sh 'git push origin'
+                   sh 'git push origin HEAD:main'
                    
                    //def parentBuild = currentBuild.rawBuild.getParent()
                    //sh 'git checkout pre-prod'
