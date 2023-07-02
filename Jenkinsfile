@@ -10,6 +10,7 @@ pipeline {
    options {
       //disableResume()
    }
+   stages{
       stage('build & tests') {
          when {
             branch "development"
@@ -102,7 +103,7 @@ pipeline {
          }
       }
        
-   
+   }
    post {        
       
         always {
