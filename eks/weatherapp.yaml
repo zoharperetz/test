@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: weatherapp
-        image: weather-app:13
+        image: weather-app:VERSION_TAG
         ports:
         - containerPort: 5000
         

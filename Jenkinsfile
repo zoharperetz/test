@@ -15,7 +15,7 @@ pipeline {
      stage('Disable pipeline from Jenkins trigger') {
         steps{
           script{
-             if (currentBuild.rawBuild.getCause(hudson.model.Cause.UserIdCause)) {
+             if (!currentBuild.rawBuild.getCause(hudson.model.Cause.UserIdCause)) {
                         echo 'Changes detected from Jenkins. Aborting pipeline run.'
                         error 'Pipeline run aborted due to changes from Jenkins.'
            }
