@@ -1,1 +1,20 @@
-helokdkdmdkdkdk
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weatherapp
+spec:
+  selector:
+    matchLabels:
+      app: weather-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: weather-app
+    spec:
+      containers:
+      - name: weatherapp
+        image: weather-app:VERSION_TAG
+        ports:
+        - containerPort: 5000
+        
