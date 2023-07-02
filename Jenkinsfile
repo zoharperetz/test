@@ -17,7 +17,7 @@ pipeline {
           script{
              def jenkinsCause = currentBuild.rawBuild.getCause(hudson.model.Cause.UserIdCause)
              echo "${jenkinsCause}"
-             if (jenkinsCause == null) {
+             if (jenkinsCause != null) {
                    echo 'Changes detected from Jenkins. Aborting pipeline run.'
                    error ('Pipeline run aborted due to changes from Jenkins.')
            }
