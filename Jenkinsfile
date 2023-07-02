@@ -28,9 +28,6 @@ pipeline {
       }
       
      stage('update version') {
-        when {
-            branch "main"
-        }
         steps {
           script{
            dir('eks') {
@@ -49,9 +46,6 @@ pipeline {
         }
      }
       stage('push changes') {
-        when {
-            branch "main"
-        }
         steps {
           script{
              withCredentials([gitUsernamePassword(credentialsId: 'github-token', gitToolName: 'Default')]) {
@@ -81,7 +75,7 @@ pipeline {
         steps{
           script{
              def parentBuild = getParentBuild()
-             //parentBuild.pipeline.disableResume()
+             parentBuild.pipeline.disableResume()
            }
          }
      }
