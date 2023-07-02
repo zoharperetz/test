@@ -15,7 +15,7 @@ pipeline {
      stage('Disable pipeline from Jenkins trigger') {
         steps{
           script{
-             def jenkinsCause = currentBuild.getCauses().find { cause ->
+             def jenkinsCause = run.causes.find { cause ->
                    cause instanceof hudson.model.Cause.UserIdCause
              }
              if (jenkinsCause) {
