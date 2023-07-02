@@ -8,7 +8,7 @@ pipeline {
       label 'build-agent' 
    }
    options {
-      //disableResume()
+      disableResume()
    }
    stages{
       stage('build & tests') {
