@@ -17,7 +17,11 @@ pipeline {
           script{
              def jenkinsCause = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)
              echo "${jenkinsCause}"
-             def username = currentBuild.getExecutor().getCurrentExecutable().getUserId()
+             //def username = currentBuild.getExecutor().getCurrentExecutable().getUserId()
+             def executor = currentBuild.executor
+             def username = executor.currentExecutable.rawBuild.getCauses().find { cause ->
+                     cause instanceof hudson.model.Cause.UserIdCause
+             }?.userId ?: 'Unknown'
              echo "Username: ${username}"
              if (jenkinsCause != null) {
                    echo 'Changes detected from Jenkins. Aborting pipeline run.'
